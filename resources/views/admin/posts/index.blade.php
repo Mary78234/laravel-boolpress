@@ -16,6 +16,7 @@
       <tr>
         <th>ID</th>
         <th>Title</th>
+        <th>Slug</th>
         <th colspan="3">Actions</th>
       </tr>
     </thead>
@@ -27,6 +28,7 @@
         <tr>
           <td> {{ $post['id'] }} </td>
           <td> {{ $post['title'] }} </td>
+          <td> {{ $post['slug'] }} </td>
           <td> <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary">Show</a></td>
           <td><a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-info">Edit</a></td>
           <td>
