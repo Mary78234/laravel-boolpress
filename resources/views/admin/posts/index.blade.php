@@ -36,7 +36,7 @@
             @endif  
           
           </td>
-          <td> <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary">Show</a></td>
+          <td><a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary">Show</a></td>
           <td><a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-info">Edit</a></td>
           <td>
             <form action="{{ route('admin.posts.destroy', $post) }}" method="post">
@@ -63,7 +63,7 @@
         <ul>
           
           @forelse ($category->posts as $post_category)
-            <li><a href="{{ route('admin.posts.show', $post) }}">{{ $post_category->title }}</a></li>
+            <li><a href="{{ route('admin.posts.show', $post_category->id) }}">{{ $post_category->title }}</a></li>
           @empty
             <li> - nessun post - </li>
           @endforelse
