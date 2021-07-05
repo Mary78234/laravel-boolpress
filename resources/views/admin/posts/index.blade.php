@@ -16,7 +16,7 @@
       <tr>
         <th>ID</th>
         <th>Title</th>
-        <th>Slug</th>
+        <th>Category</th>
         <th colspan="3">Actions</th>
       </tr>
     </thead>
@@ -28,7 +28,14 @@
         <tr>
           <td> {{ $post['id'] }} </td>
           <td> {{ $post['title'] }} </td>
-          <td> {{ $post['slug'] }} </td>
+          <td> 
+            @if ($post->category)
+              {{ $post->category->name }}
+            @else
+              -
+            @endif  
+          
+          </td>
           <td> <a href="{{ route('admin.posts.show', $post) }}" class="btn btn-primary">Show</a></td>
           <td><a href="{{ route('admin.posts.edit', $post) }}" class="btn btn-info">Edit</a></td>
           <td>
@@ -46,6 +53,27 @@
     </tbody>
 
   </table>
+
+
+  {{-- lista categorie --}}
+  <ul>
+    @foreach ($categories as $category)
+      <li>
+        <h3>{{ $category->name }}</h3>
+        <ul>
+          
+          @forelse ($category->posts as $post_category)
+            <li><a href="{{ route('admin.posts.show', $post) }}">{{ $post_category->title }}</a></li>
+          @empty
+            <li> - nessun post - </li>
+          @endforelse
+
+        </ul>
+      </li>
+    @endforeach
+  </ul>
+  {{-- /lista categorie --}}
+
 
 </div>
 @endsection

@@ -2,7 +2,15 @@
 
 @section('content')
 <div class="container">
-  <h1>{{ $post->title }}</h1>  
+  <h1>{{ $post->title }}</h1> 
+  <h3>
+    @if ($post->category)
+      Categoria: {{ $post->category->name }}
+    @else
+      Nessuna categoria associata
+    @endif  
+  
+  </h3> 
   <p>{{ $post->content }}</p>
   
   <div>

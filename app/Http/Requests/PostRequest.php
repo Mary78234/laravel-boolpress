@@ -25,7 +25,8 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'required|max:10',
-            'content' => 'required|min:3'
+            'content' => 'required|min:3',
+            'category_id' => 'nullable|exists:categories,id'
         ];
     }
 
@@ -34,7 +35,8 @@ class PostRequest extends FormRequest
             'title.required' => 'Ti sei dimenticato di inserire il titolo!',
             'title.max' => 'Hai superato in massimo di :max di caratteri consentito.',
             'content.required' => 'Ti sei dimenticato di inserire il contenuto!',
-            'content.min' => 'Hai scritto troppo poco! Devi superare :min caratteri.'
+            'content.min' => 'Hai scritto troppo poco! Devi superare :min caratteri.',
+            'category_id.exists' => 'La categoria scelta non esiste'
         ];
     }
 }
