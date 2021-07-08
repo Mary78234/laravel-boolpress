@@ -55,6 +55,30 @@
       @enderror
     </div>
 
+    {{-- check box Tag --}}
+    <div class="mb-3">
+      <h3>Tags</h3>
+      @foreach ($tags as $tag)
+
+        <span class="d-inline-bloc mr-3">
+          <input type="checkbox" 
+            name="tags[]" 
+            id="tag{{ $loop->iteration }}"
+            value="{{ $tag->id }}"
+            @if (in_array($tag->id, old('tags', [])))
+              checked
+            @endif
+            >
+          <label for="tag{{ $loop->iteration }}">{{ $tag->name }}</label>
+        </span>
+
+      @endforeach
+      @error('tags')
+        <p class="text-danger">{{ $message }}</p>
+      @enderror
+    </div>
+    {{-- /check box Tag --}}
+
     <div>
       <button type="submit" class="btn btn-primary">Invia</button>
       <button type="reset" class="btn btn-primary">Reset</button>

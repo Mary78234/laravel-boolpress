@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -31,7 +32,9 @@ class PostController extends Controller
     public function create()
     {   
         $categories = Category::all();
-        return view('admin.posts.create', compact('categories'));
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -43,21 +46,15 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {   
         $data = $request->all();
+        //dd($data); controllo se caricato i dati
         $data['slug'] = Str::slug($data['title'], '-');
-
-        //controlla se slug esiste già comparando 'slug' di altri Post con $data['slug'] creato alla righa sopra con i dati appena inseriti
         $slug_exist = Post::where('slug', $data['slug']);
         $counter = 0;
 
         while($slug_exist){
-            //aggiungo il numero $counter a $title in modo da avere il uno slug diverso da quello esistente
             $title = $data['title'] . '-' . $counter;
             $slug = Str::slug($title, '-');
-            //riassegno a $data['slug'] il nuovo $slug appena creato
             $data['slug'] = $slug;
-            //controllo se nuovo $slug creato nel ciclo non sia uguale a $slug presenti in altri Post, 
-            //se non restituisce niente allora salverà in $data['slug'] lo $slug creato in questo ciclo, 
-            //se $slug_exist contiene qualcosa, re-iniza il ciclo while con $counter++ in modo che il prossimo $slug abbia il titolo+numero incrementato
             $slug_exist = Post::where('slug', $slug)->first();
             $counter++;
         }
@@ -65,6 +62,12 @@ class PostController extends Controller
         $new_post = new Post();
         $new_post->fill($data);
         $new_post->save();
+
+        //verifica se esiste la chiave
+        if(array_key_exists('tags', $data)){
+            $new_post->tags()->attach($data['tags']);
+        }
+
         return redirect()->route('admin.posts.show', $new_post);
     }
 
@@ -94,11 +97,12 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::all();
+        $tags = Tag::all();
 
         if(!$post){
             abort(404);
         }
-        return view('admin.posts.edit', compact('post', 'categories'));
+        return view('admin.posts.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -108,13 +112,11 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
         $data = $request->all();
-        
         //controllo se è stato modificato il titolo
         if($post->title !== $data['title']){
-            //faccio partire la creazione di slug (con controllo se non ci sia già uno uguale esistente)
             $slug = Str::slug($data['title'], '-');
             $slug_exist = Post::where('slug', $slug)->first();
             $counter = 0;
@@ -126,11 +128,18 @@ class PostController extends Controller
                 $counter++;
             }
         }else{
-            //se il titolo non è stato modificato, non serve ricreare un nuovo slug, basta assegnargli il vecchio slug
             $data['slug'] = $post->slug;
         }
 
         $post->update($data);
+
+        //se esiste chaive
+        if(array_key_exists('tags', $data)){
+            $post->tags()->sync($data['tags']);
+        }else{
+            $post->tags()->detach();
+        }
+
         return redirect()->route('admin.posts.show', $post);
     }
 

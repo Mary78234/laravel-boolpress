@@ -24,9 +24,10 @@ class PostRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:10',
+            'title' => 'required|max:50',
             'content' => 'required|min:3',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|exists:tags,id'
         ];
     }
 
@@ -36,7 +37,8 @@ class PostRequest extends FormRequest
             'title.max' => 'Hai superato in massimo di :max di caratteri consentito.',
             'content.required' => 'Ti sei dimenticato di inserire il contenuto!',
             'content.min' => 'Hai scritto troppo poco! Devi superare :min caratteri.',
-            'category_id.exists' => 'La categoria scelta non esiste'
+            'category_id.exists' => 'La categoria scelta non esiste.',
+            'tags.exists' => 'Il tag selezionato non esiste.'
         ];
     }
 }
