@@ -1,6 +1,8 @@
 <template>
   <main class="container">
 
+    <Header />
+
     <router-view></router-view>
 
   </main>
@@ -8,13 +10,19 @@
 
 <script>
 
+import Header from './components/Header.vue';
 
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Header,
+  }
+
 }
 </script>
 
 <style lang="scss">
+
   @import '../sass/frontoffice/global';
 
 </style>
