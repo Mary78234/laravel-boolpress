@@ -3,11 +3,10 @@
     <h1>Il mio blog</h1>
 
     <!-- loading -->
-    <div 
-    v-if="!loaded"
-    class="text-center mt-5">
-      <div class="lds-dual-ring"></div>
+    <div v-if="!loaded">
+      <Loader />
     </div>
+
 
 
     <!-- contenuto blog -->
@@ -15,20 +14,15 @@
     v-if="loaded"
     >
 
-      <div 
+      <Card
       v-for="post in posts"
       :key="'p'+post.id"
-      class="card mb-3">
-        <div class="card-body">
-          <div class="d-flex justify-content-between">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <span class="badge badge-success custom-badge">{{ post.category }}</span>
-          </div>
-          <i>{{ formatDate(post.date) }}</i>
-          <p class="card-text">{{ post.content }}</p>
-          <a href="#" class="btn btn-primary">Vai</a>
-        </div>
-      </div>
+      :title="post.title"
+      :category="post.category"
+      :date="FormatDate.format(post.date)"
+      :content="post.content"
+      :slug="post.slug"
+      />
 
       <!-- paginazione -->
       <nav aria-label="Page navigation example">
@@ -72,14 +66,22 @@
 <script>
 
 import axios from 'axios';
+import Loader from '../components/Loader.vue';
+import Card from '../components/Card.vue';
+import FormatDate from '../classes/FormatDate';
 
 export default {
   name: 'Blog',
+  components:{
+    Loader,
+    Card
+  },
   data(){
     return{
       posts: [],
       pagination: {},
-      loaded: false
+      loaded: false,
+      FormatDate
     }
   },
   methods:{
@@ -103,7 +105,7 @@ export default {
           console.log(err);
         })
     },
-
+/* 
     formatDate(date){
       let d = new Date(date);
       let dy = d.getDate();
@@ -116,7 +118,7 @@ export default {
       return `${dy}/${m}/${y}`;
 
     }
-
+ */
   },
   created(){
     this.getPosts();
@@ -125,36 +127,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-badge{
-  display: inline-block;
-  height: 2rem;
-  line-height: 2rem;
-}
-
-.lds-dual-ring {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-}
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 64px;
-  height: 64px;
-  margin: 8px;
-  border-radius: 50%;
-  border: 6px solid cornflowerblue;
-  border-color: cornflowerblue transparent cornflowerblue transparent;
-  animation: lds-dual-ring 1.2s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 
 </style>
