@@ -17,13 +17,13 @@
   {{-- /errors --}}
 
   {{-- form inizio  --}}
-  <form action="{{ route('admin.posts.store') }}" method="post">
+  <form action="{{ route('admin.posts.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('POST')
 
     <div class="mb-3">
       <label for="title" class="form-lable">Title</label>
-      <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
+      <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
       @error('title')
         <p class="text-danger">{{ $message }}</p>
       @enderror
@@ -49,7 +49,7 @@
 
     <div class="mb-3">
       <label for="content" class="form-lable">Content</label>
-      <textarea name="content" id="content" class="form-control" rows="5">{{ old('content') }}</textarea>
+      <textarea name="content" id="content" class="form-control @error('content') is-invalid @enderror" rows="5">{{ old('content') }}</textarea>
       @error('content')
         <p class="text-danger">{{ $message }}</p>
       @enderror
@@ -78,6 +78,17 @@
       @enderror
     </div>
     {{-- /check box Tag --}}
+
+    {{-- caricamento img --}}
+    <div class="mb-3">
+      <label for="cover" class="form-lable">Immagine</label>
+      <input type="file" name="cover" id="cover" class="form-control @error('cover') is-invalid @enderror">
+      @error('cover')
+        <p class="text-danger">{{ $message }}</p>
+      @enderror
+    </div>
+    {{-- /caricamento img --}}
+
 
     <div>
       <button type="submit" class="btn btn-primary">Invia</button>

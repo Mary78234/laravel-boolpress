@@ -27,7 +27,8 @@ class PostRequest extends FormRequest
             'title' => 'required|max:50',
             'content' => 'required|min:3',
             'category_id' => 'nullable|exists:categories,id',
-            'tags' => 'nullable|exists:tags,id'
+            'tags' => 'nullable|exists:tags,id',
+            'cover' => 'nullable|image'
         ];
     }
 
