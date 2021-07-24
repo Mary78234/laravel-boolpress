@@ -2,8 +2,12 @@
   <div 
   class="card mb-3">
 
-    <div class="card-body">
+    <div class="post-cover">
+      <img :src="cover" :alt="title">
+    </div>
 
+    <div class="card-body">
+      
       <div class="d-flex justify-content-between">
         <h5 class="card-title">{{ title }}</h5>
         <span class="badge badge-success custom-badge">{{ category }}</span>
@@ -21,7 +25,7 @@
 <script>
 export default {
   name: 'Card',
-  props: ['title', 'category', 'date', 'content', 'slug'],
+  props: ['title', 'category', 'date', 'content', 'slug', 'cover'],
   data(){
     return{
       maxLengthText:150
@@ -44,5 +48,11 @@ export default {
   display: inline-block;
   height: 2rem;
   line-height: 2rem;
+}
+.post-cover{
+  width: 300px;
+  img{
+    width: 100%;
+  }
 }
 </style>

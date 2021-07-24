@@ -1958,9 +1958,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Card',
-  props: ['title', 'category', 'date', 'content', 'slug'],
+  props: ['title', 'category', 'date', 'content', 'slug', 'cover'],
   data: function data() {
     return {
       maxLengthText: 150
@@ -2089,6 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Loader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Loader.vue */ "./resources/js/components/Loader.vue");
 /* harmony import */ var _components_Card_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Card.vue */ "./resources/js/components/Card.vue");
 /* harmony import */ var _classes_FormatDate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../classes/FormatDate */ "./resources/js/classes/FormatDate.js");
+//
 //
 //
 //
@@ -2402,7 +2407,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".custom-badge[data-v-b9bc2c0a] {\n  display: inline-block;\n  height: 2rem;\n  line-height: 2rem;\n}", ""]);
+exports.push([module.i, ".custom-badge[data-v-b9bc2c0a] {\n  display: inline-block;\n  height: 2rem;\n  line-height: 2rem;\n}\n.post-cover[data-v-b9bc2c0a] {\n  width: 300px;\n}\n.post-cover img[data-v-b9bc2c0a] {\n  width: 100%;\n}", ""]);
 
 // exports
 
@@ -3676,6 +3681,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mb-3" }, [
+    _c("div", { staticClass: "post-cover" }, [
+      _c("img", { attrs: { src: _vm.cover, alt: _vm.title } })
+    ]),
+    _vm._v(" "),
     _c(
       "div",
       { staticClass: "card-body" },
@@ -3951,6 +3960,7 @@ var render = function() {
                 attrs: {
                   title: post.title,
                   category: post.category,
+                  cover: post.cover,
                   date: _vm.FormatDate.format(post.date),
                   content: post.content,
                   slug: post.slug
@@ -20467,8 +20477,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/macbook/Documents/Bolean Esercitazioni/LARAVEL/laravel-boolpress/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/macbook/Documents/Bolean Esercitazioni/LARAVEL/laravel-boolpress/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/macbook/Documents/Coding/Bolean Esercitazioni/LARAVEL/laravel-boolpress/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/macbook/Documents/Coding/Bolean Esercitazioni/LARAVEL/laravel-boolpress/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

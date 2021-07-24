@@ -15,6 +15,7 @@ class AddCoverPostsTable extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->string('cover')->nullable()->after('slug');
+            $table->string('cover_original_name')->nullable()->after('slug');
         });
     }
 
@@ -27,6 +28,7 @@ class AddCoverPostsTable extends Migration
     {
         Schema::table('posts', function (Blueprint $table) {
             $table->dropColumn('cover');
+            $table->dropColumn('cover_original_name');
         });
     }
 }

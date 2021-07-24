@@ -24,11 +24,20 @@ class PostController extends Controller
                 'posts.title', 
                 'posts.content', 
                 'posts.slug',
+                'posts.cover',
                 'posts.created_at as date', 
                 'categories.name as category')
             ->join('categories', 'posts.category_id', 'categories.id')
+            ->orderBy('posts.id','desc')
             ->paginate(3);
         
+        $posts->each(function($post){
+            if($post->cover){
+                $post->cover = url('storage/' . $post->cover);
+            } else {
+                $post->cover = url('img/default-fallback-image.png');
+            }
+        });
         //$posts = Post::with(['category', 'tags'])->get();
 
         return response()->json($posts);

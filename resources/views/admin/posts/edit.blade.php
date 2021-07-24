@@ -14,7 +14,7 @@
     </div>
   @endif 
   
-  <form action="{{ route('admin.posts.update', $post) }}" method="post">
+  <form action="{{ route('admin.posts.update', $post) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
 
@@ -76,6 +76,26 @@
     </div>
     {{-- /check box Tag --}}
 
+    {{-- caricamento img --}}
+    <div class="mb-3">
+
+      <div>
+        <label for="cover" class="lable-control">Immagine</label>
+      </div>
+        
+      @if ($post->cover)
+        <img width="150"  src="{{ asset('storage/' . $post->cover) }}" alt="{{ $post->cover_original_name }}">
+      @endif
+
+      <input type="file" name="cover" id="cover" class="form-control @error('cover') is-invalid @enderror"
+      onchange="previwFile()">
+      @error('cover')
+        <p class="text-danger">{{ $message }}</p>
+      @enderror
+    </div>
+    {{-- /caricamento img --}}
+
+
     <div>
       <button type="submit" class="btn btn-primary">Invia</button>
     </div>
@@ -83,4 +103,19 @@
   </form>
 
 </div>
+<script>
+  function previewFile() {
+    var preview = document.querySelector('img');
+    var file    = document.querySelector('input[type=file]').files[0];
+    var reader  = new FileReader();
+    reader.onloadend = function () {
+      preview.src = reader.result;
+    }
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
+    }
+  }
+  </script>
 @endsection

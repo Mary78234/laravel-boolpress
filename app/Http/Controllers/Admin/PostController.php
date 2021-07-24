@@ -8,6 +8,7 @@ use App\Http\Requests\PostRequest;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -46,7 +47,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {   
         $data = $request->all();
-        //dd($data); controllo se caricato i dati
+        //dd($data); //controllo se caricato i dati
         $data['slug'] = Str::slug($data['title'], '-');
         $slug_exist = Post::where('slug', $data['slug']);
         $counter = 0;
@@ -57,6 +58,12 @@ class PostController extends Controller
             $data['slug'] = $slug;
             $slug_exist = Post::where('slug', $slug)->first();
             $counter++;
+        }
+
+        if(array_key_exists('cover', $data)){
+            $data['cover_original_name'] = $request->file('cover')->getClientOriginalName();
+            $img_path = Storage::put('uploads', $data['cover']);
+            $data['cover'] = $img_path;
         }
 
         $new_post = new Post();
@@ -131,6 +138,16 @@ class PostController extends Controller
             $data['slug'] = $post->slug;
         }
 
+        if(array_key_exists('cover', $data)){
+            if($post->cover){//se esiste un immagine da sostituire elimino quella vecchia
+                Storage::delete($post->cover);
+            }
+
+            $data['cover_original_name'] = $request->file('cover')->getClientOriginalName();
+            $img_path = Storage::put('uploads', $data['cover']);
+            $data['cover'] = $img_path;
+        }
+
         $post->update($data);
 
         //se esiste chaive
@@ -151,6 +168,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if($post->cover){
+            Storage::delete($post->cover);
+        }
         $post->delete(); //cancella post
         return redirect()->route('admin.posts.index')->with('deleted', $post->title); //messaggio di conferma cancellazione
 

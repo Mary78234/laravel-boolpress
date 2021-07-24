@@ -19,6 +19,7 @@
       :key="'p'+post.id"
       :title="post.title"
       :category="post.category"
+      :cover="post.cover"
       :date="FormatDate.format(post.date)"
       :content="post.content"
       :slug="post.slug"

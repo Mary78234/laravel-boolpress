@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
             'content' => 'required|min:3',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|exists:tags,id',
-            'cover' => 'nullable|image'
+            'cover' => 'nullable|image|max:32000'
         ];
     }
 
@@ -39,7 +39,9 @@ class PostRequest extends FormRequest
             'content.required' => 'Ti sei dimenticato di inserire il contenuto!',
             'content.min' => 'Hai scritto troppo poco! Devi superare :min caratteri.',
             'category_id.exists' => 'La categoria scelta non esiste.',
-            'tags.exists' => 'Il tag selezionato non esiste.'
+            'tags.exists' => 'Il tag selezionato non esiste.',
+            'cover.image' => 'Il file caricato non è un un\'immagine.',
+            'cover.max' => 'L\'immagine caricato è troppo pesante, sono consentiti al massimo :max kb'
         ];
     }
 }
